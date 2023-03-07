@@ -1,0 +1,133 @@
+Drop TABLE fine;
+Drop TABLE borrow_return;
+Drop TABLE student;
+Drop TABLE book;
+
+
+CREATE TABLE student
+(
+ 	student_id NUMBER(5) GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+	stu_name VARCHAR2(20) NOT NULL,
+	stu_gender VARCHAR2(10) NOT NULL,
+	stu_address VARCHAR2(200) NOT NULL,
+	stu_classYear NUMBER(2) NOT NULL
+);
+
+CREATE TABLE book
+(
+	book_id NUMBER(5) GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+	book_title VARCHAR2(200) NOT NULL,
+	book_author VARCHAR2(100) NOT NULL,
+	book_category VARCHAR2(50)  NOT NULL,
+	publication_year NUMBER(5),
+	book_status NUMBER(2) NOT NULL
+
+
+);
+
+CREATE TABLE borrow_return
+(
+	borrow_id NUMBER(5)  GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+	student_id NUMBER(5) NOT NULL,
+	book_id NUMBER(5) NOT NULL,
+	borrow_date DATE,
+	due_date DATE,
+	return_date  DATE,
+	CONSTRAINT fk_br_stuId FOREIGN KEY (student_id) REFERENCES student(student_id),
+	CONSTRAINT fk_br_bookId FOREIGN KEY (book_id) REFERENCES book(book_id)
+);
+
+CREATE TABLE fine
+(
+	fine_id NUMBER(5)   GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+	student_id NUMBER(5) NOT NULL,
+	book_id NUMBER(5) NOT NULL,
+	borrow_id NUMBER(5) NOT NULL,
+	overdue_days NUMBER(5),
+	fine_amount NUMBER(5),
+
+	CONSTRAINT fk_fine_stuId FOREIGN KEY (student_id) REFERENCES student(student_id),
+	CONSTRAINT fk_fine_bookId FOREIGN KEY (book_id) REFERENCES book(book_id),
+	CONSTRAINT fk_fine_borrowId FOREIGN KEY (borrow_id) REFERENCES borrow_return(borrow_id)
+);
+
+/
+
+
+INSERT INTO student (stu_name,stu_gender,stu_address,stu_classYear) VALUES ('Hein Thit Sar','MALE','43 main street ',6);
+INSERT INTO student (stu_name,stu_gender,stu_address,stu_classYear) VALUES ('Htar Htar Hlaing','FEMALE','44 main street ',6);
+INSERT INTO student (stu_name,stu_gender,stu_address,stu_classYear) VALUES ('Kaung Htet Hein','MALE','45 main street ',6);
+INSERT INTO student (stu_name,stu_gender,stu_address,stu_classYear) VALUES ('Kaung Seit Thar','MALE','46 main street ',6);
+INSERT INTO student (stu_name,stu_gender,stu_address,stu_classYear) VALUES ('Kaung Sint Yang','MALE','47 main street ',6);
+INSERT INTO student (stu_name,stu_gender,stu_address,stu_classYear) VALUES ('Kyaw Wai Yan Htike','MALE','48 main street ',6);
+INSERT INTO student (stu_name,stu_gender,stu_address,stu_classYear) VALUES ('Kyi Lin Lin Thant','FEMALE','49 main street ',6);
+INSERT INTO student (stu_name,stu_gender,stu_address,stu_classYear) VALUES ('Maysee Sar','FEMALE','50 main street ',6);
+INSERT INTO student (stu_name,stu_gender,stu_address,stu_classYear) VALUES ('Min Thike Khant','MALE','51 main street ',6);
+INSERT INTO student (stu_name,stu_gender,stu_address,stu_classYear) VALUES ('Mya Myint Zu Maung','FEMALE','52 main street ',6);
+INSERT INTO student (stu_name,stu_gender,stu_address,stu_classYear) VALUES ('Myat Hsu Lwin','FEMALE','53 main street ',6);
+INSERT INTO student (stu_name,stu_gender,stu_address,stu_classYear) VALUES ('Nay Paing Oo','MALE','54 main street ',6);
+INSERT INTO student (stu_name,stu_gender,stu_address,stu_classYear) VALUES ('Pyae Shan Ko','MALE','56 main street ',6);
+INSERT INTO student (stu_name,stu_gender,stu_address,stu_classYear) VALUES ('Pyae Sone Aung','MALE','57 main street ',6);
+INSERT INTO student (stu_name,stu_gender,stu_address,stu_classYear) VALUES ('Pyae Sone Ko','MALE','58 main street ',6);
+INSERT INTO student (stu_name,stu_gender,stu_address,stu_classYear) VALUES ('San Linn Tun','MALE','59 main street ',6);
+INSERT INTO student (stu_name,stu_gender,stu_address,stu_classYear) VALUES ('Sha Mwe La','MALE','60 main street ',6);
+INSERT INTO student (stu_name,stu_gender,stu_address,stu_classYear) VALUES ('Thiri Myo Paing','FEMALE','61 main street ',6);
+INSERT INTO student (stu_name,stu_gender,stu_address,stu_classYear) VALUES ('Wai Yan Min Khant','MALE','62 main street ',6);
+INSERT INTO student (stu_name,stu_gender,stu_address,stu_classYear) VALUES ('Myo Hein Tun','MALE','63 main street ',6);
+
+INSERT INTO book (book_title,book_author,book_category,publication_year,book_copies,current_unit,book_status) VALUES ('An Immense World','Ed Yong','Science',2022,5,5,1);
+INSERT INTO book (book_title,book_author,book_category,publication_year,book_copies,current_unit,book_status) VALUES ('Inflence:Science and Pracitce','Cialdini Robert','Science',2008,3,3,1);
+INSERT INTO book (book_title,book_author,book_category,publication_year,book_copies,current_unit,book_status) VALUES ('Death by Landscape','Elvia Wilk','Science',2022,4,4,1);
+INSERT INTO book (book_title,book_author,book_category,publication_year,book_copies,current_unit,book_status) VALUES ('Atlas of Human Anatomy','Netter MD','Science',2014,2,2,1);
+INSERT INTO book (book_title,book_author,book_category,publication_year,book_copies,current_unit,book_status) VALUES ('Life:The Science of Biology','Sadava','Science',2012,3,3,1);
+INSERT INTO book (book_title,book_author,book_category,publication_year,book_copies,current_unit,book_status) VALUES ('Animal Farm','George Orwell','Classics',1945,1,1,1);
+INSERT INTO book (book_title,book_author,book_category,publication_year,book_copies,current_unit,book_status) VALUES ('And Then There Were None','Agatha Christie','Classics',1939,2,2,1);
+INSERT INTO book (book_title,book_author,book_category,publication_year,book_copies,current_unit,book_status) VALUES ('The Little Prince','Antoine de Saint','Classics',1943,5,5,1);
+INSERT INTO book (book_title,book_author,book_category,publication_year,book_copies,current_unit,book_status) VALUES ('The Metamorphosis','Franz Kafka','Classics',1915,1,1,1);
+INSERT INTO book (book_title,book_author,book_category,publication_year,book_copies,current_unit,book_status) VALUES ('To Kill a Mockingbird','Harper Lee','Classics',1960,2,2,1);
+INSERT INTO book (book_title,book_author,book_category,publication_year,book_copies,current_unit,book_status) VALUES ('The It Girl','Ruth Ware','Thriller',2022,4,4,1);
+INSERT INTO book (book_title,book_author,book_category,publication_year,book_copies,current_unit,book_status) VALUES ('Gone Girl','Gillian Flynn','Thriller',2012,3,3,1);
+INSERT INTO book (book_title,book_author,book_category,publication_year,book_copies,current_unit,book_status) VALUES ('The New Neighbor','Karen Cleveland','Thriller',2022,5,5,1);
+INSERT INTO book (book_title,book_author,book_category,publication_year,book_copies,current_unit,book_status) VALUES ('The Last to Vanish','Megan Miranda','Thriller',2022,3,3,1);
+INSERT INTO book (book_title,book_author,book_category,publication_year,book_copies,current_unit,book_status) VALUES ('When No One is Watching','Alyssa Cole','Thriller',2020,2,2,1);
+INSERT INTO book (book_title,book_author,book_category,publication_year,book_copies,current_unit,book_status) VALUES ('Literature','Robert DiYanni','Fiction',2006,1,1,1);
+INSERT INTO book (book_title,book_author,book_category,publication_year,book_copies,current_unit,book_status) VALUES ('Burning Down the House','Charles Baxter','Fiction',2008,3,3,1);
+INSERT INTO book (book_title,book_author,book_category,publication_year,book_copies,current_unit,book_status) VALUES ('The Baghdad Eucharist','Sinan Antoon','Fiction',2017,4,4,1);
+INSERT INTO book (book_title,book_author,book_category,publication_year,book_copies,current_unit,book_status) VALUES ('The Crying of Lot','Thomas Pynchon','Fiction',2006,2,2,1);
+INSERT INTO book (book_title,book_author,book_category,publication_year,book_copies,current_unit,book_status) VALUES ('The Name of the Wind','Patrick Rothfuss','Fantasy',2007,5,5,1);
+INSERT INTO book (book_title,book_author,book_category,publication_year,book_copies,current_unit,book_status) VALUES ('A Game of Thrones','George R.R. Martin','Fantasy',1997,3,3,1);
+INSERT INTO book (book_title,book_author,book_category,publication_year,book_copies,current_unit,book_status) VALUES ('The Fifth Season','N.K.Jemisin','Fantasy',2015,2,2,1);
+INSERT INTO book (book_title,book_author,book_category,publication_year,book_copies,current_unit,book_status) VALUES ('The Night Circus','Erin Morgenstern','Fantasy',2011,4,4,1);
+INSERT INTO book (book_title,book_author,book_category,publication_year,book_copies,current_unit,book_status) VALUES ('A Short History of Nearly Everything','Bill Bryson','Non_fiction',2003,3,3,1);
+INSERT INTO book (book_title,book_author,book_category,publication_year,book_copies,current_unit,book_status) VALUES ('Silent Spring','Rachel Carson','Non_fiction',1962,1,1,1);
+INSERT INTO book (book_title,book_author,book_category,publication_year,book_copies,current_unit,book_status) VALUES ('Into the Air','Jon Krakauer','Non_fiction',1996,2,2,1);
+INSERT INTO book (book_title,book_author,book_category,publication_year,book_copies,current_unit,book_status) VALUES ('In Cold Blood','Truman Capote','Non_fiction',1996,1,1,1);
+INSERT INTO book (book_title,book_author,book_category,publication_year,book_copies,current_unit,book_status) VALUES ('When Breath Becomes Air','Paul Kalanithi','Non_fiction',2016,3,3,1);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
